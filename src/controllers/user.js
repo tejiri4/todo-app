@@ -127,6 +127,16 @@ export const updateUser = async (req, res) => {
       _id,
     } = req.user;
 
+    if (req.body.email) {
+      const user = await User.findOne({ email: req.body.email });
+
+      if (user) {
+        return res.status(400).json({
+          message: 'User with email already exist.',
+        });
+      }
+    }
+
     await User.updateOne({ _id }, { ...req.body });
 
     return res.status(200).json({
