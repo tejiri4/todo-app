@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon --exec babel-node src/index.js",
     "build": "rm -rf build/* && babel -d ./build ./src",
-    "start": "NODE_ENV=production node ./build/index.js"
+    "start": "NODE_ENV=production node ./build/index.js",
+    "test": "jest",
+    "test:ci": "jest --ci --runInBand --reporters=default --forceExit"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,7 @@
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/runtime": "^7.12.5",
+    "babel-jest": "^26.6.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "i": "^0.3.6",
@@ -36,6 +39,7 @@
     "eslint": "^7.16.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.6"
   }
 }
