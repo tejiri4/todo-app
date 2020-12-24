@@ -1,12 +1,15 @@
 import express from 'express';
 import connectMongo from './db/connect';
 import './config/dotenv';
+import appRouter from './routes';
 
 const app = express();
 
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+
+app.use('/api', appRouter);
 
 app.get('/', (req, res) => res.status(200).json({
   message: 'I am alive',
