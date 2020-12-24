@@ -1,5 +1,5 @@
 import express from 'express';
-import connectMongo from './config/db';
+import connectMongo from './db/connect';
 import './config/dotenv';
 
 const app = express();
