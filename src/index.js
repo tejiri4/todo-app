@@ -38,6 +38,5 @@ app.use((err, req, res, next) => {
 
 // connect to mongo db
 connectMongo();
-connectRabbitmq();
 
 app.listen(port, () => { console.log('app is listening on port 3000'); });
