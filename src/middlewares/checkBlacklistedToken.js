@@ -1,8 +1,8 @@
 import BlacklistedToken from '../db/models/blacklistedToken';
 
-const checkBlacklistedToken = (req, res, next) => {
+const checkBlacklistedToken = async (req, res, next) => {
   try {
-    const blackListedToken = BlacklistedToken.findOne({ token: req.headers.token }).exec();
+    const blackListedToken = await BlacklistedToken.findOne({ token: req.headers.token }).exec();
 
     if (blackListedToken) {
       return res.status(401).json({

@@ -10,10 +10,10 @@ const userRegisterSchema = Joi.object({
   password: Joi.string().required(),
 });
 
-const userUpdateSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-});
+const userUpdateSchema = Joi.object().keys({
+  name: Joi.string(),
+  email: Joi.string().email(),
+}).or('name', 'email');
 
 const userLoginSchema = Joi.object({
   email: Joi.string().email().required(),

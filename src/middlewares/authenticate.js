@@ -4,7 +4,6 @@ import { verifyToken } from '../utils/token';
 const authenticate = async (req, res, next) => {
   try {
     const decoded = verifyToken(req.headers.token);
-
     const user = await User.findOne({ _id: decoded.id }).exec();
 
     if (!user) {
