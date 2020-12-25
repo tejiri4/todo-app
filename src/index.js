@@ -15,6 +15,21 @@ app.get('/', (req, res) => res.status(200).json({
   message: 'I am alive',
 }));
 
+// handle route not found
+app.use('/', (req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+// custom error handler
+app.use((err, req, res, next) => {
+  if (err) {
+    return res.status(500).json({
+      message: 'Something went wrong',
+    });
+  }
+  return next();
+});
+
 // connect to mongo db
 connectMongo();
 
