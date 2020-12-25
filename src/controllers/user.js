@@ -1,8 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-import { comparePassword, hashPassword } from '../utils/password';
+import { comparePassword, generateRandomPassword, hashPassword } from '../utils/password';
 import User from '../db/models/user';
 import { generateToken } from '../utils/token';
 import BlacklistedToken from '../db/models/blacklistedToken';
+import { publisher } from '../services/rabbitmq';
 
 // register a new user
 export const registerUser = async (req, res) => {
@@ -24,6 +25,21 @@ export const registerUser = async (req, res) => {
       email,
       name,
     });
+
+    if (req.sendMail) {
+      const html = `
+      <h1>Welcome to Todo app</h1>
+      <p>Your new password is ${password}</p>
+    `;
+
+      // publish to queue
+      publisher({
+        queueName: 'email',
+        message: {
+          to: email, subject: 'Welcome', text: '', html,
+        },
+      });
+    }
 
     const token = generateToken({ id: user._id });
 
@@ -156,6 +172,25 @@ export const getUserByToken = async (req, res) => {
       message: 'User fetched successfully.',
       data: req.user,
     });
+  } catch (err) {
+    return res.status(500).json({
+      message: 'Something went wrong',
+    });
+  }
+};
+
+// invite user
+export const inviteUser = async (req, res) => {
+  try {
+    const password = generateRandomPassword();
+
+    // set auto generated password
+    req.body.password = password;
+
+    // send email
+    req.sendMail = true;
+
+    return registerUser(req, res);
   } catch (err) {
     return res.status(500).json({
       message: 'Something went wrong',

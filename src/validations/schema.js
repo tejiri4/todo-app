@@ -24,10 +24,16 @@ const taskSchema = Joi.object({
   description: Joi.string().required(),
 });
 
+const inviteUserSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+});
+
 export {
   userUpdateSchema,
   userRegisterSchema,
   userLoginSchema,
   idSchema,
   taskSchema,
+  inviteUserSchema,
 };

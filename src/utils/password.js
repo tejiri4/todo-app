@@ -7,3 +7,6 @@ export const hashPassword = (password) => {
 
 export const comparePassword = (password, hashedPassword) =>
   bcrypt.compareSync(password, hashedPassword);
+
+export const generateRandomPassword = () => 
+  Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
