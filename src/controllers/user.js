@@ -174,12 +174,9 @@ export const updateUser = async (req, res) => {
 // get user details by token
 export const returnAuthenticatedUser = async (req, res) => {
   try {
-    // strip password
-    const { password, ...rest } = req.user._doc;
-
     return res.status(200).json({
       message: 'User fetched successfully.',
-      data: rest,
+      data: req.user,
     });
   } catch (err) {
     return res.status(500).json({
@@ -209,11 +206,11 @@ export const inviteUser = async (req, res) => {
 
 export const getUsers = async (_, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.find({}, { password: 0 });
 
     return res.status(200).json({
       message: 'Users fetched successfully.',
-      data: users.map(({ _doc: { password, ...rest } }) => rest),
+      data: users,
     });
   } catch (err) {
     return res.status(500).json({
