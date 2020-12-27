@@ -41,6 +41,12 @@ export const registerUser = async (req, res) => {
       });
     }
 
+    if (req.sendMail) {
+      return res.status(200).json({
+        message: 'Kindly check your mail to login.',
+      });
+    }
+
     const token = generateToken({ id: user._id });
 
     const { _id } = user._doc;
@@ -168,9 +174,12 @@ export const updateUser = async (req, res) => {
 // get user details by token
 export const returnAuthenticatedUser = async (req, res) => {
   try {
+    // strip password
+    const { password, ...rest } = req.user._doc;
+
     return res.status(200).json({
       message: 'User fetched successfully.',
-      data: req.user,
+      data: rest,
     });
   } catch (err) {
     return res.status(500).json({
@@ -204,7 +213,7 @@ export const getUsers = async (_, res) => {
 
     return res.status(200).json({
       message: 'Users fetched successfully.',
-      data: users,
+      data: users.map(({ _doc: { password, ...rest } }) => rest),
     });
   } catch (err) {
     return res.status(500).json({

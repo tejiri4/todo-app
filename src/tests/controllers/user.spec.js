@@ -35,13 +35,9 @@ describe('USER', ()=>{
         }
       }
 
-      const { data: { name, email, token }} = await inviteUser(req, mockExpressResponse);
+      const { message } = await inviteUser(req, mockExpressResponse);
 
-      userToken = token;
-
-      expect(name).toEqual(req.body.name)
-      expect(email).toEqual(req.body.email)
-      expect(token.length).toBeGreaterThanOrEqual(1)
+      expect(message).toEqual("Kindly check your mail to login.")
       done()
     })
 

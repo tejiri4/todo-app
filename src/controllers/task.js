@@ -66,6 +66,14 @@ export const getTask = async (req, res) => {
 // delete a task
 export const deleteTask = async (req, res) => {
   try {
+    const task = await Task.findOne({ _id: req.params.id });
+
+    if (!task) {
+      return res.status(400).json({
+        message: 'Task with id wasnt found.',
+      });
+    }
+
     await Task.deleteOne({ _id: req.params.id });
 
     return res.status(200).json({
@@ -81,6 +89,14 @@ export const deleteTask = async (req, res) => {
 // update a task
 export const completeTask = async (req, res) => {
   try {
+    const task = await Task.findOne({ _id: req.params.id });
+
+    if (!task) {
+      return res.status(400).json({
+        message: 'Task with id wasnt found.',
+      });
+    }
+
     await Task.updateOne({ _id: req.params.id }, { state: 'done' });
 
     return res.status(200).json({

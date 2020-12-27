@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 const idSchema = Joi.object({
-  id: Joi.string().required(),
+  id: Joi.string().regex(/^[0-9a-fA-F]{24}$/).message('Invalid id in params').required(),
 });
 
 const userRegisterSchema = Joi.object({
