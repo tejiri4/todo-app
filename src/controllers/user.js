@@ -166,7 +166,7 @@ export const updateUser = async (req, res) => {
 };
 
 // get user details by token
-export const getUserByToken = async (req, res) => {
+export const returnAuthenticatedUser = async (req, res) => {
   try {
     return res.status(200).json({
       message: 'User fetched successfully.',

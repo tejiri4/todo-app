@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  registerUser, login, logout, deleteUser, updateUser, getUserByToken, inviteUser,
+  registerUser, login, logout, deleteUser, updateUser, returnAuthenticatedUser, inviteUser,
 } from '../../controllers/user';
 import authenticate from '../../middlewares/authenticate';
 import checkBlacklistedToken from '../../middlewares/checkBlacklistedToken';
@@ -17,7 +17,7 @@ userRouter.post('/login', checkIfUserExists, validate(userLoginSchema), login);
 userRouter.post('/logout', authenticate, logout);
 userRouter.delete('/me', checkBlacklistedToken, authenticate, deleteUser);
 userRouter.patch('/me', checkBlacklistedToken, authenticate, validate(userUpdateSchema), updateUser);
-userRouter.get('/me', checkBlacklistedToken, authenticate, getUserByToken);
+userRouter.get('/me', checkBlacklistedToken, authenticate, returnAuthenticatedUser);
 userRouter.post('/invite', checkIfUserExists, validate(inviteUserSchema), inviteUser);
 
 export default userRouter;
