@@ -1,17 +1,15 @@
 import mongoose from 'mongoose';
-import { Mockgoose } from 'mockgoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 // mock mongodb
 export const connectMongo = async () => {
-	let mockgoose = new Mockgoose(mongoose);
+	const opts = { };
 
-	await mockgoose.prepareStorage();
-
-	mongoose.connect('mongodb://example.com/TestingDB', { useNewUrlParser: true, useUnifiedTopology: true });
-
-	mongoose.connection.on('connected', () => {
-		console.log('db connection is now open');
-	});
+	const mongoServer = new MongoMemoryServer();
+  const mongoUri = await mongoServer.getUri();
+  await mongoose.connect(mongoUri, opts, (err) => {
+    if (err) console.error(err);
+  });
 }
 
 // mock express response

@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/todo-app 
     docker:
-      - image: victorperin/mockgoose-error
+      - image: circleci/node:12.18.3
     steps:
       - checkout
       - run:
