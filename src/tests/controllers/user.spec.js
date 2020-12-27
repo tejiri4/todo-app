@@ -1,6 +1,6 @@
-import { connectMongo, mockExpressResponse } from '.';
-import { deleteUser, inviteUser, login, logout, registerUser, returnAuthenticatedUser, updateUser } from '../controllers/user';
-import User from '../db/models/user';
+import { connectMongo, mockExpressResponse } from '..';
+import { deleteUser, getUsers, inviteUser, login, logout, registerUser, returnAuthenticatedUser, updateUser } from '../../controllers/user';
+import User from '../../db/models/user';
 
 jest.mock('nodemailer')
 
@@ -82,6 +82,13 @@ describe('USER', ()=>{
       done()
     })
 
+    it('should retrieve all users', async (done) => {
+      const users  = await getUsers(null, mockExpressResponse);
+
+      expect(users.data.length).toBeGreaterThanOrEqual(1)
+      done()
+    })
+
     it('should not update a user email if new email exists', async (done) => {
       const req = {
         body: {
@@ -145,7 +152,7 @@ describe('USER', ()=>{
       done()
     })
 
-    it('should delte a user', async (done) => {
+    it('should delete a user', async (done) => {
       const req = {
         headers: {
           token: userToken

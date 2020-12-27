@@ -1,9 +1,26 @@
+import mongoose from 'mongoose';
 import Task from '../db/models/task';
+import User from '../db/models/user';
+
+const { ObjectId } = mongoose.Types;
 
 // create a new task
 export const createTask = async (req, res) => {
   try {
-    const task = await Task.create({ description: req.body.description, state: 'todo' });
+    const {
+      userId,
+      description,
+    } = req.body;
+
+    const user = User.findOne({ _id: userId });
+
+    if (!user) {
+      return res.status(200).json({
+        message: 'User not found.',
+      });
+    }
+
+    const task = await Task.create({ description, userId: new ObjectId(userId), state: 'todo' });
 
     return res.status(200).json({
       message: 'Task created.',
@@ -49,7 +66,7 @@ export const getTask = async (req, res) => {
 // delete a task
 export const deleteTask = async (req, res) => {
   try {
-    await Task.remove({ _id: req.params.id });
+    await Task.deleteOne({ _id: req.params.id });
 
     return res.status(200).json({
       message: 'Task was deleted successfully',

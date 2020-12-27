@@ -22,6 +22,7 @@ const userLoginSchema = Joi.object({
 
 const taskSchema = Joi.object({
   description: Joi.string().required(),
+  userId: Joi.string().required(),
 });
 
 const inviteUserSchema = Joi.object({

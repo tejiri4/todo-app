@@ -18,5 +18,5 @@ module.exports = {
   verbose: true,
   transform: { '^.+\\.js?$': 'babel-jest' },
   transformIgnorePatterns: ['/node_modules/'],
-  testTimeout: 120000,
+  testTimeout: 200000,
 };
