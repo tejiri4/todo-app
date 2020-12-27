@@ -2,8 +2,6 @@ import express from 'express';
 import connectMongo from './db/connect';
 import './config/dotenv';
 import appRouter from './routes';
-import sendMail from './utils/sendEmail';
-import { connectRabbitmq } from './services/rabbitmq';
 import emailConsumer from './services/emailConsumer';
 
 const app = express();
